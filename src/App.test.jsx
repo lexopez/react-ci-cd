@@ -7,7 +7,7 @@ test("increments count when button is clicked", async () => {
 
   render(<App />);
 
-  await user.click(screen.getByText("Increment count number"));
+  await user.click(screen.getByText("Increment count"));
 
   expect(screen.getByText("Count: 1")).toBeInTheDocument();
 });
