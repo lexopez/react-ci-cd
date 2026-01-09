@@ -11,6 +11,26 @@ on:
       - main
 
 jobs:
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
   Test:
     runs-on: ubuntu-latest
     steps:
@@ -18,11 +38,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
+          node-version: 20
+          cache: "npm"
 
       - run: npm ci
 
-      - run: npm run test:prod
+      - run: npm run test
 
   Deploy-Preview:
     needs: [Test]
@@ -32,7 +53,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
+          node-version: 20
+          cache: "npm"
 
       - name: Install Vercel CLI
         run: npm install --global vercel
